@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-25
+
+### Added
+
+- `rle-selection-text="<group>"` replaces an element's text with the selected
+  value for that group, restoring its authored text as a placeholder when
+  empty. Useful for dropdown toggle labels and summary lines.
+- `rle-selection-state="<group>"` adds `is-selected` to an element once that
+  group has a value.
+- Both bindings are resolved page-wide, so they can sit outside
+  `rle-container`.
+
 ## [0.2.0] - 2026-09-15
 
 ### Changed
@@ -43,6 +55,7 @@ All notable changes to this project are documented here. The format follows
   `rle-level-of-care`, on-demand fetching of slide content into a Webflow
   slider, optional language filtering, and per-slide `gtag` tracking.
 
-[Unreleased]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/cohesivecc/real-life-examples.js/releases/tag/v0.1.0

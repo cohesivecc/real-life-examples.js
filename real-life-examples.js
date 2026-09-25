@@ -11,6 +11,12 @@ Webflow.push(function () {
    *     rle-selection-value="<value>"       the value it sets
    *   [rle-example]                         a (hidden) link to example content, with one
    *     rle-<group>="<value>"               attribute per selection group on the page
+   *   [rle-selection-text="<group>"]        any element, anywhere on the page, whose text
+   *                                         mirrors the selected value for <group>. Its
+   *                                         original text is the placeholder shown until
+   *                                         a value is selected.
+   *   [rle-selection-state="<group>"]       any element, anywhere on the page, that gets
+   *                                         the is-selected class once <group> has a value
    *
    * The set of required parameters is discovered from the distinct
    * rle-selection-group values present in the container. The continue button
@@ -41,6 +47,11 @@ Webflow.push(function () {
           }
         });
 
+        // remember each text display's authored text as its placeholder
+        $("[rle-selection-text]").each(function () {
+          $(this).data("rle-placeholder", $(this).text());
+        });
+
         // grab list of RLEs from the collection list
         this.container
           .find("[rle-example]")
@@ -69,6 +80,7 @@ Webflow.push(function () {
           if (example) example.trackSlide(data);
         });
 
+        this.groups.forEach((group) => this.renderSelection(group));
         this.updateContinueButton();
       }
       this.updateAndShowSlider = this.updateAndShowSlider.bind(this);
@@ -96,7 +108,25 @@ Webflow.push(function () {
         .find("[rle-selection-icon]")
         .addClass("is-selected");
 
+      this.renderSelection(group);
       this.updateContinueButton();
+    }
+
+    // Reflect a group's current value in every element bound to it.
+    // Searched page-wide so selections can be echoed outside the container.
+    renderSelection(group) {
+      const value = this.selections[group];
+      const byGroup = (attr) => function () { return $(this).attr(attr) === group; };
+
+      $("[rle-selection-text]")
+        .filter(byGroup("rle-selection-text"))
+        .each(function () {
+          $(this).text(value || $(this).data("rle-placeholder"));
+        });
+
+      $("[rle-selection-state]")
+        .filter(byGroup("rle-selection-state"))
+        .toggleClass("is-selected", !!value);
     }
 
     allSelectionsMade() {
