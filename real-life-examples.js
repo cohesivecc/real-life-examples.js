@@ -9,12 +9,14 @@ Webflow.push(function () {
    *   [rle-selection-option]                a clickable choice, with:
    *     rle-selection-group="<group>"       which parameter it sets (e.g. "coverage-tier")
    *     rle-selection-value="<value>"       the value it sets
+   *     rle-selection-label="<label>"       optional display text (e.g. localized) shown by
+   *                                         rle-selection-text instead of the value
    *   [rle-example]                         a (hidden) link to example content, with one
    *     rle-<group>="<value>"               attribute per selection group on the page
    *   [rle-selection-text="<group>"]        any element, anywhere on the page, whose text
-   *                                         mirrors the selected value for <group>. Its
-   *                                         original text is the placeholder shown until
-   *                                         a value is selected.
+   *                                         mirrors the selected label (or value) for
+   *                                         <group>. Its original text is the placeholder
+   *                                         shown until a value is selected.
    *   [rle-selection-state="<group>"]       any element, anywhere on the page, that gets
    *                                         the is-selected class once <group> has a value
    *
@@ -30,6 +32,7 @@ Webflow.push(function () {
         const _this = this;
 
         this.selections = {};        // { [group]: value }
+        this.selectionLabels = {};   // { [group]: display text for the selected value }
         this.examples = [];
         this.language = this.container.attr('rle-language');
         this.menu = this.container.find("[rle-menu]");
@@ -99,6 +102,8 @@ Webflow.push(function () {
       const selected = allButtons
         .filter(function () { return $(this).attr("rle-selection-value") === value; });
 
+      this.selectionLabels[group] = selected.attr("rle-selection-label") || value;
+
       allButtons
         .removeClass("is-selected")
         .find("[rle-selection-icon]")
@@ -112,16 +117,17 @@ Webflow.push(function () {
       this.updateContinueButton();
     }
 
-    // Reflect a group's current value in every element bound to it.
+    // Reflect a group's current selection in every element bound to it.
     // Searched page-wide so selections can be echoed outside the container.
     renderSelection(group) {
       const value = this.selections[group];
+      const text = value && this.selectionLabels[group];
       const byGroup = (attr) => function () { return $(this).attr(attr) === group; };
 
       $("[rle-selection-text]")
         .filter(byGroup("rle-selection-text"))
         .each(function () {
-          $(this).text(value || $(this).data("rle-placeholder"));
+          $(this).text(text || $(this).data("rle-placeholder"));
         });
 
       $("[rle-selection-state]")

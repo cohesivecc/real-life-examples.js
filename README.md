@@ -16,7 +16,7 @@ Include jQuery (Webflow already does) and load the library from jsDelivr,
 pinned to a release tag, in the page's custom code before `</body>`:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/cohesivecc/real-life-examples.js@0.3.0/real-life-examples.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/cohesivecc/real-life-examples.js@0.4.0/real-life-examples.js"></script>
 ```
 
 Include it once per page. A second copy will double-bind the click handlers.
@@ -39,17 +39,23 @@ that are just `true` are placeholders; only the attribute name matters.
 
 ### Selection options
 
-Each clickable choice is a div with three attributes:
+Each clickable choice is a div with three required attributes and one optional
+attribute:
 
 ```html
 <div rle-selection-option="true"
      rle-selection-group="coverage-tier"
-     rle-selection-value="Employee Only">...</div>
+     rle-selection-value="Employee Only"
+     rle-selection-label="Solo empleado">...</div>
 ```
 
 - `rle-selection-group` names the parameter. Every distinct group found in the
   container becomes a required selection.
-- `rle-selection-value` is the value that choice sets.
+- `rle-selection-value` is the value that choice sets. Example matching and
+  analytics use it, so keep it the same across locales.
+- `rle-selection-label` is optional display text for `rle-selection-text`, for
+  example a localized version of the value. If it is missing or empty, the
+  value is shown instead.
 - The library toggles `is-selected` on the option and on any child tagged
   `rle-selection-icon`.
 
@@ -61,7 +67,7 @@ outside `rle-container`.
 
 | Attribute | Effect |
 |---|---|
-| `rle-selection-text="<group>"` | The element's text is replaced with the selected value for that group. The text authored in Webflow is kept as the placeholder until a value is chosen. |
+| `rle-selection-text="<group>"` | The element's text is replaced with the selected option's `rle-selection-label`, or its value if it has no label. The text authored in Webflow is kept as the placeholder until a value is chosen. |
 | `rle-selection-state="<group>"` | The element gets the `is-selected` class once that group has a value. |
 
 For a Webflow dropdown, put `rle-selection-state` on the dropdown (or its

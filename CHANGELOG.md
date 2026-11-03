@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-03
+
+### Added
+
+- Optional `rle-selection-label` on a selection option sets the text shown by
+  `rle-selection-text`, for example a localized version of the value. Options
+  without a label, or with an empty one, still show `rle-selection-value`.
+  Example matching and analytics keep using `rle-selection-value`.
+
 ## [0.3.0] - 2026-09-25
 
 ### Added
@@ -55,7 +64,8 @@ All notable changes to this project are documented here. The format follows
   `rle-level-of-care`, on-demand fetching of slide content into a Webflow
   slider, optional language filtering, and per-slide `gtag` tracking.
 
-[Unreleased]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/cohesivecc/real-life-examples.js/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/cohesivecc/real-life-examples.js/releases/tag/v0.1.0
